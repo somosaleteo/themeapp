@@ -15,7 +15,6 @@ dependencies:
   cupertino_icons: ^1.0.8
   text_responsive: ^1.2.1
   jocaagura_domain: ^1.17.0
-  jocaaguraarchetype: ^1.5.1
 
 dev_dependencies:
   flutter_test:

@@ -1,0 +1,1 @@
+enum AppRoute { splash }
