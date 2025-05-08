@@ -4,6 +4,23 @@ Todos los cambios notables en este proyecto serán documentados en este archivo.
 
 El formato de este changelog está basado en [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), y el proyecto sigue [SemVer](https://semver.org/lang/es/).
 
+## [0.3.0] - 2024-07-05
+
+### Added
+- Integración del `BlocTheme` con los casos de uso de `save`, `load` y `listen` al `ThemeModel`
+- Funcionalidad para cambiar el tema dinámicamente de forma aleatoria desde la UI
+- Visualización del modelo actual de tema (`ThemeModel`) en la interfaz principal
+- Inyector de dependencias implementado mediante `AppStateManager`
+- Implementación del `ThemeGatewayFakeImpl` como origen emulado de datos
+
+### Changed
+- Estructura del `BlocTheme` extendida para incluir `BlocGeneral<ThemeModel>` además de `ThemeData`
+- Manejo reactivo visual comprobado mediante `StreamBuilder` en el `MaterialApp`
+
+### Notes
+- Esta versión omite el manejo de errores con `Either<ErrorItem, T>` por simplicidad didáctica.
+- Se planea agregar visualización mediante `Card` y conexión real con Firebase en próximas versiones.
+
 ## [0.2.0] - 2024-07-05
 
 ### ✨ Added

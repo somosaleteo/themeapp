@@ -44,7 +44,7 @@ class ThemeModel extends Model {
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'color':
-          '#${color.value.toRadixString(16).padLeft(8, '0').toUpperCase()}',
+          '#${color.toARGB32().toRadixString(16).padLeft(8, '0').toUpperCase()}',
       'createdAt': createdAt.toIso8601String(),
       'description': description,
     };

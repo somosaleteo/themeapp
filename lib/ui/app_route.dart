@@ -1,1 +1,1 @@
-enum AppRoute { splash }
+enum AppRoute { homePage }

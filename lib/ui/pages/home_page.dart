@@ -1,23 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:text_responsive/text_responsive.dart';
 
-import '../../domain/models/theme_model.dart';
+import '../app_state_manager.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,16 +17,18 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            InlineTextWidget('Color: ${defaultThemeModel.toJson()}'),
+            InlineTextWidget(
+              'Color: ${AppStateManager.of(context).blocTheme.themeModel.toJson()}',
+            ),
             Text(
-              '$_counter',
+              'Presiona el boton para cambiar el tema',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: AppStateManager.of(context).blocTheme.changeToRandomTheme,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
