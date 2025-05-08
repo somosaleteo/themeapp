@@ -4,6 +4,19 @@ Todos los cambios notables en este proyecto serán documentados en este archivo.
 
 El formato de este changelog está basado en [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), y el proyecto sigue [SemVer](https://semver.org/lang/es/).
 
+## [0.7.0] - 2025-05-08
+
+### Añadido
+- `ProjectorWidget`: nuevo widget para escalar dinámicamente el contenido basado en dimensiones de diseño (600x800).
+- Soporte de diseño responsivo para dispositivos de escritorio y móviles usando `AspectRatio` y `FittedBox`.
+
+### Cambios
+- `HomePage` ahora está contenido dentro de `ProjectorWidget`, lo que mejora la experiencia visual al presentar el `ThemeModelCardWidget`.
+
+### Comentario
+Se habilitó este comportamiento como parte del ejercicio educativo para mostrar cómo escalar interfaces sin necesidad de media queries o cálculos manuales por componente. Se espera integrar el diseño final proporcionado por la diseñadora para la siguiente versión.
+
+
 ## [0.6.0] - 2025-05-08
 ### Agregado
 - Archivo `README.md` con descripción completa del proyecto, instalación, estructura, y licencias.
