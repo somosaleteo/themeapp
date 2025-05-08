@@ -4,6 +4,18 @@ Todos los cambios notables en este proyecto serán documentados en este archivo.
 
 El formato de este changelog está basado en [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), y el proyecto sigue [SemVer](https://semver.org/lang/es/).
 
+## [0.5.0] - 2025-05-08
+
+### Agregado
+- Implementación del servicio `ServiceFirebaseFirestoreDatabase` para interactuar con Cloud Firestore.
+- Nueva clase `ThemeGatewayFirebaseImpl` que usa Firestore como backend persistente para `ThemeModel`.
+- Se actualizó la inyección de dependencias en `main.dart` para utilizar el nuevo gateway basado en Firestore.
+- Se configuró la base de datos en modo público para pruebas de laboratorio hasta el 7 de junio de 2025.
+- Firestore acepta ahora `ThemeModel` como documento persistente, permitiendo sincronización en tiempo real vía `snapshots()`.
+
+### Cambiado
+- Reemplazada la implementación de pruebas basada en memoria (`ThemeGatewayFakeImpl`) por el backend real en Firestore.
+
 ## [0.4.0] - 2024-07-05
 
 ### Changed
