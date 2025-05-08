@@ -14,8 +14,8 @@ class ThemeModelCardWidget extends StatelessWidget {
 
     return Card(
       elevation: 4,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      margin: const EdgeInsets.all(16),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      margin: const EdgeInsets.all(8),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
@@ -32,7 +32,7 @@ class ThemeModelCardWidget extends StatelessWidget {
             ),
             foregroundDecoration: BoxDecoration(
               borderRadius: const BorderRadius.vertical(
-                top: Radius.circular(16),
+                top: Radius.circular(20),
               ),
               color: theme.colorScheme.primaryContainer.withValues(alpha: 0.75),
               backgroundBlendMode: BlendMode.overlay,

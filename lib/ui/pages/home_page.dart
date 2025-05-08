@@ -17,8 +17,8 @@ class HomePage extends StatelessWidget {
         title: const InlineTextWidget('Demo reactividad'),
       ),
       body: ProjectorWidget(
-        designWidth: 600,
-        designHeight: 800,
+        designWidth: 440,
+        designHeight: 956,
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -32,9 +32,13 @@ class HomePage extends StatelessWidget {
                   );
                 },
               ),
-              ParagraphTextWidget(
-                'Si han pasado más de 5 segundos.\nPresiona el boton para cambiar el tema\nde lo contrario solo cambiará el modelo',
-                style: Theme.of(context).textTheme.headlineMedium,
+              SizedBox(
+                width: 440.0,
+                height: 300.0,
+                child: ParagraphTextWidget(
+                  'Si han pasado más de 5 segundos.\nPresiona el boton para cambiar el tema\nde lo contrario solo cambiará el modelo',
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
               ),
             ],
           ),

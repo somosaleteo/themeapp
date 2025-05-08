@@ -91,7 +91,7 @@ class BlocTheme extends BlocModule {
     Colors.grey,
   ];
 
-  void changeToRandomTheme() {
+  Future<void> changeToRandomTheme() async {
     final Random random = Random();
     final Color color =
         _availableColors[random.nextInt(_availableColors.length)];
@@ -102,7 +102,7 @@ class BlocTheme extends BlocModule {
           'Color aleatorio: #${color.toARGB32().toRadixString(16).toUpperCase()}',
     );
 
-    changeTheme(model);
+    await changeTheme(model);
   }
 
   @override

@@ -1,3 +1,1 @@
-abstract class Repository {
-  const Repository();
-}
+abstract class Repository {}

@@ -4,6 +4,17 @@ Todos los cambios notables en este proyecto serán documentados en este archivo.
 
 El formato de este changelog está basado en [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), y el proyecto sigue [SemVer](https://semver.org/lang/es/).
 
+## [0.8.0] - 2025-05-08
+
+### Agregado
+- Se añadió sección completa de cobertura de pruebas al `README.md`, detallando los componentes cubiertos y las herramientas utilizadas.
+- Validación completa con `Mocktail` de todos los componentes del módulo de temas (`ThemeModel`, Bloc, Gateway, Repository, UseCases).
+- Aclaración del uso de fallback y validación de `Stream`s.
+
+### Resultado
+- 100% de cobertura en todos los archivos clave de la arquitectura del tema.
+
+
 ## [0.7.0] - 2025-05-08
 
 ### Añadido
