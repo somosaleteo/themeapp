@@ -44,11 +44,18 @@ class BlocTheme extends BlocModule {
   }
 
   Future<void> changeTheme(ThemeModel model) async {
+    final ThemeModel previous = _blocThemeModel.value;
+
     _blocThemeModel.value = model;
-    themeData = ThemeData(
-      colorScheme: ColorScheme.fromSeed(seedColor: model.color),
-    );
-    await saveThemeUseCase(model);
+    if (_shouldSaveTheme(previous, model)) {
+      await saveThemeUseCase(model);
+    }
+  }
+
+  bool _shouldSaveTheme(ThemeModel oldModel, ThemeModel newModel) {
+    final int differenceInSeconds =
+        newModel.createdAt.difference(oldModel.createdAt).inSeconds;
+    return differenceInSeconds > 3;
   }
 
   Future<void> loadInitialTheme() async {
@@ -62,6 +69,7 @@ class BlocTheme extends BlocModule {
 
   void _listenToThemeChanges() {
     _subscription = listenToThemeChangesUseCase().listen((ThemeModel model) {
+      debugPrint('Escuchando el cambio del tema');
       themeData = ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: model.color),
       );
@@ -79,6 +87,8 @@ class BlocTheme extends BlocModule {
     Colors.indigo,
     Colors.cyan,
     Colors.deepOrange,
+    Colors.black,
+    Colors.grey,
   ];
 
   void changeToRandomTheme() {

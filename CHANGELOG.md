@@ -4,6 +4,18 @@ Todos los cambios notables en este proyecto serán documentados en este archivo.
 
 El formato de este changelog está basado en [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), y el proyecto sigue [SemVer](https://semver.org/lang/es/).
 
+## [0.4.0] - 2024-07-05
+
+### Changed
+- Se refactoriza la implementación de `ThemeGatewayFirebaseImpl` para delegar toda interacción con Firebase en una nueva clase `ServiceFirebaseDatabase`
+- Se crea la abstracción `ServiceFirebaseDatabase` con los métodos `write`, `read` y `onValue` para desacoplar la lógica del tipo de base de datos
+- Se implementa `ServiceFirebaseRealtimeDatabase` para gestionar la comunicación con Realtime Database
+- Se facilita la sustitución futura por Firestore, REST o implementaciones mockeadas
+
+### Notes
+- Esta mejora responde al principio de inversión de dependencias en Clean Architecture
+- Las funciones principales de la demo no cambian; se conserva la misma estructura de datos (`theme_model/current`)
+
 ## [0.3.0] - 2024-07-05
 
 ### Added

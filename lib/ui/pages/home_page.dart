@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:text_responsive/text_responsive.dart';
 
+import '../../domain/models/theme_model.dart';
 import '../app_state_manager.dart';
+import '../widgets/theme_model_card_widget.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -17,11 +19,16 @@ class HomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            InlineTextWidget(
-              'Color: ${AppStateManager.of(context).blocTheme.themeModel.toJson()}',
+            StreamBuilder<ThemeModel>(
+              stream: AppStateManager.of(context).blocTheme.themeModelStream,
+              builder: (_, __) {
+                return ThemeModelCardWidget(
+                  themeModel: AppStateManager.of(context).blocTheme.themeModel,
+                );
+              },
             ),
-            Text(
-              'Presiona el boton para cambiar el tema',
+            ParagraphTextWidget(
+              'Si han pasado más de 5 segundos.\nPresiona el boton para cambiar el tema\nde lo contrario solo cambiará el modelo',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
           ],
@@ -31,7 +38,7 @@ class HomePage extends StatelessWidget {
         onPressed: AppStateManager.of(context).blocTheme.changeToRandomTheme,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }
