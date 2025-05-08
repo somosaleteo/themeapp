@@ -4,6 +4,14 @@ Todos los cambios notables en este proyecto serán documentados en este archivo.
 
 El formato de este changelog está basado en [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), y el proyecto sigue [SemVer](https://semver.org/lang/es/).
 
+## [0.6.0] - 2025-05-08
+### Agregado
+- Archivo `README.md` con descripción completa del proyecto, instalación, estructura, y licencias.
+- Configuración de Firebase Hosting para despliegue web.
+- Inclusión de licencia MIT en el proyecto.
+- Estructura clara para contribuyentes, preparada para presentaciones y talleres.
+
+
 ## [0.5.0] - 2025-05-08
 
 ### Agregado
