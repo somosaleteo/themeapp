@@ -3,6 +3,7 @@ import 'package:text_responsive/text_responsive.dart';
 
 import '../../domain/models/theme_model.dart';
 import '../app_state_manager.dart';
+import '../widgets/color_slider_group_widget.dart';
 import '../widgets/projector_widget.dart';
 import '../widgets/theme_model_card_widget.dart';
 
@@ -39,6 +40,11 @@ class HomePage extends StatelessWidget {
                   'Si han pasado más de 5 segundos.\nPresiona el boton para cambiar el tema\nde lo contrario solo cambiará el modelo',
                   style: Theme.of(context).textTheme.headlineMedium,
                 ),
+              ),
+
+              // Sliders
+              ColorSliderGroupWidget(
+                blocTheme: AppStateManager.of(context).blocTheme,
               ),
             ],
           ),

@@ -105,6 +105,29 @@ class BlocTheme extends BlocModule {
     await changeTheme(model);
   }
 
+  Future<void> updateColorComponent({
+    double? red,
+    double? green,
+    double? blue,
+  }) async {
+    final Color old = themeModel.color;
+    final Color updated = Color.from(
+      red: red ?? old.r,
+      green: green ?? old.g,
+      blue: blue ?? old.b,
+      alpha: 1.0,
+    );
+
+    final ThemeModel newModel = ThemeModel(
+      color: updated,
+      createdAt: DateTime.now(),
+      description:
+          'Color personalizado: #${updated.toARGB32().toRadixString(16).toUpperCase()}',
+    );
+
+    await changeTheme(newModel);
+  }
+
   @override
   void dispose() {
     _subscription?.cancel();
