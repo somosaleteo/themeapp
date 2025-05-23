@@ -31,7 +31,9 @@ void main() {
     mockLoad = MockLoadThemeUseCase();
     mockListen = MockListenToThemeChangesUseCase();
 
-    when(() => mockListen()).thenAnswer((_) => Stream<ThemeModel>.empty());
+    when(
+      () => mockListen(),
+    ).thenAnswer((_) => const Stream<ThemeModel>.empty());
     bloc = BlocTheme(
       saveThemeUseCase: mockSave,
       loadThemeUseCase: mockLoad,

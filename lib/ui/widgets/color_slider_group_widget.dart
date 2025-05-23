@@ -40,6 +40,12 @@ class ColorSliderGroupWidget extends StatelessWidget {
               onChanged:
                   (double value) => blocTheme.updateColorComponent(blue: value),
             ),
+            const SizedBox(height: 9.0),
+            SwitchListTile.adaptive(
+              title: const Text('Modo oscuro'),
+              value: blocTheme.themeModel.isDarkMode,
+              onChanged: (_) => blocTheme.toggleBrightness(),
+            ),
           ],
         );
       },

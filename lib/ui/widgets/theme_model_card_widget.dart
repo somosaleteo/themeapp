@@ -74,6 +74,13 @@ class ThemeModelCardWidget extends StatelessWidget {
                     color: theme.hintColor,
                   ),
                 ),
+                const SizedBox(height: 8),
+                InlineTextWidget(
+                  'Modo oscuro: ${themeModel.isDarkMode}',
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.primaryColorDark,
+                  ),
+                ),
               ],
             ),
           ),

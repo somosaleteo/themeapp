@@ -61,18 +61,22 @@ class BlocTheme extends BlocModule {
   Future<void> loadInitialTheme() async {
     final ThemeModel? model = await loadThemeUseCase();
     if (model != null) {
-      themeData = ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: model.color),
-      );
+      themeData = themeDataFromModel(model);
     }
+  }
+
+  ThemeData themeDataFromModel(ThemeModel model) {
+    return ThemeData(
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: model.color,
+        brightness: model.isDarkMode ? Brightness.dark : Brightness.light,
+      ),
+    );
   }
 
   void _listenToThemeChanges() {
     _subscription = listenToThemeChangesUseCase().listen((ThemeModel model) {
-      debugPrint('Escuchando el cambio del tema');
-      themeData = ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: model.color),
-      );
+      themeData = themeDataFromModel(model);
     });
   }
 
@@ -118,7 +122,7 @@ class BlocTheme extends BlocModule {
       alpha: 1.0,
     );
 
-    final ThemeModel newModel = ThemeModel(
+    final ThemeModel newModel = themeModel.copyWith(
       color: updated,
       createdAt: DateTime.now(),
       description:
@@ -126,6 +130,16 @@ class BlocTheme extends BlocModule {
     );
 
     await changeTheme(newModel);
+  }
+
+  Future<void> toggleBrightness() async {
+    final ThemeModel old = themeModel;
+    final ThemeModel updated = old.copyWith(
+      isDarkMode: !old.isDarkMode,
+      createdAt: DateTime.now(),
+    );
+
+    await changeTheme(updated);
   }
 
   @override
