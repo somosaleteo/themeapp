@@ -52,7 +52,7 @@ class HomePage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: AppStateManager.of(context).blocTheme.changeToRandomTheme,
-        tooltip: 'Increment',
+        tooltip: 'Increment - V3',
         child: const Icon(Icons.add),
       ),
     );
