@@ -1,8 +1,9 @@
 import 'dart:async';
 
+import 'package:jocaagura_domain/jocaagura_domain.dart';
+
 import '../../../domain/entities/services/service_firebase_database.dart';
 import '../../../domain/gateways/theme_gateway.dart';
-import '../../../domain/models/theme_model.dart';
 
 class ThemeGatewayFirebaseImpl implements ThemeGateway {
   ThemeGatewayFirebaseImpl(this.service);
@@ -10,18 +11,18 @@ class ThemeGatewayFirebaseImpl implements ThemeGateway {
   final String _path = 'theme_model/current';
 
   @override
-  Future<void> saveThemeModel(ThemeModel themeModel) {
-    return service.write(_path, themeModel.toJson());
+  Future<Either<ErrorItem, void>> saveThemeModel(Map<String, dynamic> json) {
+    return service.write(_path, json);
   }
 
   @override
-  Future<ThemeModel?> getCurrentThemeModel() async {
-    final Map<String, dynamic>? data = await service.read(_path);
-    return data != null ? ThemeModel.fromMap(data) : null;
+  Future<Either<ErrorItem, Map<String, dynamic>?>>
+  getCurrentThemeModel() async {
+    return service.read(_path);
   }
 
   @override
-  Stream<ThemeModel> onThemeChanged() {
-    return service.onValue(_path).map(ThemeModel.fromMap);
+  Stream<Either<ErrorItem, Map<String, dynamic>>> onThemeChanged() {
+    return service.onValue(_path);
   }
 }

@@ -7,27 +7,42 @@ class ServiceFirebaseRealtimeDatabase implements ServiceFirebaseDatabase {
   final FirebaseDatabase _db = FirebaseDatabase.instance;
 
   @override
-  Future<void> write(String path, Map<String, dynamic> data) async {
+  Future<Either<ErrorItem, void>> write(
+    String path,
+    Map<String, dynamic> data,
+  ) async {
     await _db.ref(path).set(data);
+    return Right<ErrorItem, void>(null);
   }
 
   @override
-  Future<Map<String, dynamic>?> read(String path) async {
+  Future<Either<ErrorItem, Map<String, dynamic>?>> read(String path) async {
     final DataSnapshot snapshot = await _db.ref(path).get();
     if (snapshot.exists && snapshot.value is Map<String, dynamic>) {
-      return Utils.mapFromDynamic(snapshot.value);
+      return Right<ErrorItem, Map<String, dynamic>?>(
+        Utils.mapFromDynamic(snapshot.value),
+      );
     }
-    return null;
+    return Left<ErrorItem, Map<String, dynamic>?>(
+      const ErrorItem(
+        title: 'No se ha podido leer el documento',
+        code: '808',
+        description:
+            'Al comunicarse con Firebase no se ha podido leer el documento',
+      ),
+    );
   }
 
   @override
-  Stream<Map<String, dynamic>> onValue(String path) {
+  Stream<Either<ErrorItem, Map<String, dynamic>>> onValue(String path) {
     return _db
         .ref(path)
         .onValue
         .where((DatabaseEvent event) => event.snapshot.value != null)
         .map(
-          (DatabaseEvent event) => Utils.mapFromDynamic(event.snapshot.value),
+          (DatabaseEvent event) => Right<ErrorItem, Map<String, dynamic>>(
+            Utils.mapFromDynamic(event.snapshot.value),
+          ),
         );
   }
 }

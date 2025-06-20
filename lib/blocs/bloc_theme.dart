@@ -32,7 +32,7 @@ class BlocTheme extends BlocModule {
     defaultThemeModel,
   );
 
-  StreamSubscription<ThemeModel>? _subscription;
+  StreamSubscription<Either<ErrorItem, ThemeModel>>? _subscription;
 
   Stream<ThemeData> get themeStream => _blocTheme.stream;
   Stream<ThemeModel> get themeModelStream => _blocThemeModel.stream;
@@ -59,7 +59,12 @@ class BlocTheme extends BlocModule {
   }
 
   Future<void> loadInitialTheme() async {
-    final ThemeModel? model = await loadThemeUseCase();
+    final Either<ErrorItem, ThemeModel?> result = await loadThemeUseCase();
+
+    final ThemeModel? model = result.fold(
+      (ErrorItem l) => null,
+      (ThemeModel? r) => r,
+    );
     if (model != null) {
       themeData = themeDataFromModel(model);
     }
@@ -75,8 +80,16 @@ class BlocTheme extends BlocModule {
   }
 
   void _listenToThemeChanges() {
-    _subscription = listenToThemeChangesUseCase().listen((ThemeModel model) {
-      themeData = themeDataFromModel(model);
+    _subscription = listenToThemeChangesUseCase().listen((
+      Either<ErrorItem, ThemeModel> result,
+    ) {
+      final ThemeModel? model = result.fold(
+        (ErrorItem l) => null,
+        (ThemeModel? r) => r,
+      );
+      if (model != null) {
+        themeData = themeDataFromModel(model);
+      }
     });
   }
 

@@ -1,8 +1,9 @@
+import 'package:jocaagura_domain/jocaagura_domain.dart';
+
 import '../entities/gateway.dart';
-import '../models/theme_model.dart';
 
 abstract class ThemeGateway extends Gateway {
-  Future<void> saveThemeModel(ThemeModel themeModel);
-  Future<ThemeModel?> getCurrentThemeModel();
-  Stream<ThemeModel> onThemeChanged();
+  Future<Either<ErrorItem, void>> saveThemeModel(Map<String, dynamic> json);
+  Future<Either<ErrorItem, Map<String, dynamic>?>> getCurrentThemeModel();
+  Stream<Either<ErrorItem, Map<String, dynamic>>> onThemeChanged();
 }
