@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:jocaagura_domain/jocaagura_domain.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:themeapp/data/gateways/theme/theme_gateway_firebase_impl.dart';
 import 'package:themeapp/domain/entities/services/service_firebase_database.dart';
@@ -32,55 +33,78 @@ void main() {
       () async {
         when(
           () => mockService.write(path, any()),
-        ).thenAnswer((_) async => <String, dynamic>{});
+        ).thenAnswer((_) async => Right<ErrorItem, void>(null));
 
-        await gateway.saveThemeModel(themeModel);
-
+        final Either<ErrorItem, void> result = await gateway.saveThemeModel(
+          themeModel.toJson(),
+        );
+        expect(result.isRight, isTrue);
         verify(() => mockService.write(path, themeModel.toJson())).called(1);
       },
     );
 
     test('getCurrentThemeModel retorna null si no hay datos', () async {
-      when(() => mockService.read(path)).thenAnswer((_) async => null);
+      when(
+        () => mockService.read(path),
+      ).thenAnswer((_) async => Right<ErrorItem, Map<String, dynamic>?>(null));
 
-      final ThemeModel? result = await gateway.getCurrentThemeModel();
-
-      expect(result, isNull);
+      final Either<ErrorItem, Map<String, dynamic>?> result =
+          await gateway.getCurrentThemeModel();
+      expect(result.isRight, isTrue);
+      result.fold(
+        (_) => fail('Debe ser Right'),
+        (Map<String, dynamic>? map) => expect(map, isNull),
+      );
     });
 
     test('getCurrentThemeModel retorna un ThemeModel si hay datos', () async {
       final Map<String, dynamic> json = themeModel.toJson();
 
-      when(() => mockService.read(path)).thenAnswer((_) async => json);
+      when(
+        () => mockService.read(path),
+      ).thenAnswer((_) async => Right<ErrorItem, Map<String, dynamic>?>(json));
 
-      final ThemeModel? result = await gateway.getCurrentThemeModel();
-
-      expect(result, isA<ThemeModel>());
-      expect(result!.description, equals(themeModel.description));
-      expect(result.color, equals(themeModel.color));
-      expect(result.createdAt, equals(themeModel.createdAt));
+      final Either<ErrorItem, Map<String, dynamic>?> result =
+          await gateway.getCurrentThemeModel();
+      expect(result.isRight, isTrue);
+      result.fold((_) => fail('Debe ser Right'), (Map<String, dynamic>? map) {
+        final ThemeModel model = ThemeModel.fromMap(map!);
+        expect(model.description, equals(themeModel.description));
+        expect(model.color, equals(themeModel.color));
+        expect(model.createdAt, equals(themeModel.createdAt));
+      });
     });
 
     test(
       'onThemeChanged transforma los datos del stream en ThemeModel',
       () async {
-        final StreamController<Map<String, dynamic>> controller =
-            StreamController<Map<String, dynamic>>();
+        final StreamController<Either<ErrorItem, Map<String, dynamic>>>
+        controller =
+            StreamController<Either<ErrorItem, Map<String, dynamic>>>();
         when(
           () => mockService.onValue(path),
         ).thenAnswer((_) => controller.stream);
 
         final List<ThemeModel> emitted = <ThemeModel>[];
-        final StreamSubscription<ThemeModel> subscription = gateway
-            .onThemeChanged()
-            .listen(emitted.add);
+        final StreamSubscription<Either<ErrorItem, Map<String, dynamic>>>
+        subscription = gateway.onThemeChanged().listen((
+          Either<ErrorItem, Map<String, dynamic>> either,
+        ) {
+          either.fold(
+            (_) => null,
+            (Map<String, dynamic> map) => emitted.add(ThemeModel.fromMap(map)),
+          );
+        });
 
-        controller.add(themeModel.toJson());
+        controller.add(
+          Right<ErrorItem, Map<String, dynamic>>(themeModel.toJson()),
+        );
         await Future<void>.delayed(const Duration(milliseconds: 10));
 
         expect(emitted.length, 1);
         expect(emitted.first.description, themeModel.description);
-
+        expect(emitted.first.color.toARGB32(), themeModel.color.toARGB32());
+        expect(emitted.first.createdAt, themeModel.createdAt);
         await subscription.cancel();
         await controller.close();
       },

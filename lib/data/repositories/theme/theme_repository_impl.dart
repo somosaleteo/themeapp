@@ -11,7 +11,8 @@ class ThemeRepositoryImpl implements ThemeRepository {
 
   final ThemeGateway gateway;
 
-  StreamSubscription? _streamSubscription;
+  StreamSubscription<Either<ErrorItem, Map<String, dynamic>>>?
+  _streamSubscription;
 
   final BlocGeneral<Either<ErrorItem, ThemeModel>> _bloc =
       BlocGeneral<Either<ErrorItem, ThemeModel>>(

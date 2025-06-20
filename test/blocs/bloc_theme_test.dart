@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:jocaagura_domain/jocaagura_domain.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:themeapp/blocs/bloc_theme.dart';
 import 'package:themeapp/domain/models/theme_model.dart';
@@ -33,7 +34,7 @@ void main() {
 
     when(
       () => mockListen(),
-    ).thenAnswer((_) => const Stream<ThemeModel>.empty());
+    ).thenAnswer((_) => const Stream<Either<ErrorItem, ThemeModel>>.empty());
     bloc = BlocTheme(
       saveThemeUseCase: mockSave,
       loadThemeUseCase: mockLoad,
@@ -58,7 +59,9 @@ void main() {
         color: Colors.green,
       );
 
-      when(() => mockLoad()).thenAnswer((_) async => themeModel);
+      when(
+        () => mockLoad(),
+      ).thenAnswer((_) async => Right<ErrorItem, ThemeModel?>(themeModel));
 
       await bloc.loadInitialTheme();
 
@@ -79,8 +82,8 @@ void main() {
         );
 
         when(
-          () => mockSave(newModel),
-        ).thenAnswer((_) async => <String, dynamic>{});
+          () => mockSave(any()),
+        ).thenAnswer((_) async => Right<ErrorItem, void>(null));
 
         await bloc.changeTheme(newModel);
 
@@ -102,8 +105,8 @@ void main() {
     });
 
     test('listenToThemeChanges actualiza el themeData', () async {
-      final StreamController<ThemeModel> controller =
-          StreamController<ThemeModel>();
+      final StreamController<Either<ErrorItem, ThemeModel>> controller =
+          StreamController<Either<ErrorItem, ThemeModel>>();
       when(() => mockListen()).thenAnswer((_) => controller.stream);
 
       bloc.dispose(); // Liberamos el anterior antes de reiniciar con stream
@@ -114,7 +117,7 @@ void main() {
       );
 
       final ThemeModel theme = defaultThemeModel.copyWith(color: Colors.teal);
-      controller.add(theme);
+      controller.add(Right<ErrorItem, ThemeModel>(theme));
       await Future<void>.delayed(const Duration(milliseconds: 10));
 
       expect(bloc.themeData.colorScheme.primary, isA<Color>());
@@ -122,7 +125,9 @@ void main() {
     });
 
     test('changeToRandomTheme genera un nuevo tema', () async {
-      when(() => mockSave(any())).thenAnswer((_) async => <String, dynamic>{});
+      when(
+        () => mockSave(any()),
+      ).thenAnswer((_) async => Right<ErrorItem, void>(null));
       await bloc.changeToRandomTheme();
 
       expect(bloc.themeModel.color, isA<Color>());
