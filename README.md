@@ -89,15 +89,15 @@ firebase deploy                   # Despliega a Firebase Hosting
 
 ## ✅ Cobertura por Componente
 
-| Componente                        | Tipo            | Cobertura | Descripción                                                                                  |
-|----------------------------------|------------------|-----------|----------------------------------------------------------------------------------------------|
-| `ThemeModel`                     | Modelo           | ✅ 100%     | Se prueban: constructor, `toJson`, `fromMap`, `copyWith`, y simetría de serialización.       |
-| `ThemeGatewayFakeImpl`           | Implementación   | ✅ 100%     | Se validan lectura, escritura y emisión en `Stream`.                                         |
-| `ThemeGatewayFirebaseImpl`       | Implementación   | ✅ 100%     | Se verifica delegación correcta a `ServiceFirebaseDatabase` en lectura, escritura y stream.  |
-| `ThemeRepositoryImpl`            | Repositorio      | ✅ 100%     | Se prueba delegación correcta de métodos del gateway.                                        |
-| `BlocTheme`                      | BLoC/Controller  | ✅ 100%     | Se cubren todos los flujos: carga inicial, cambio de tema, tema aleatorio y escucha remota. |
-| `Gateway`, `Repository` (base)   | Abstracta        | ✅ 100%     | Se valida que pueden ser instanciadas con clases fake con constructor `const`.               |
-| `ServiceFirebaseDatabase`        | Abstracta        | ✅ 100%     | Se prueba una implementación fake con constructor `const`.                                   |
+| Componente                     | Tipo            | Cobertura | Descripción                                                                                 |
+|--------------------------------|-----------------|-----------|---------------------------------------------------------------------------------------------|
+| `ThemeModel`                   | Modelo          | ✅ 100%    | Se prueban: constructor, `toJson`, `fromMap`, `copyWith`, y simetría de serialización.      |
+| `ThemeGatewayFakeImpl`         | Implementación  | ✅ 100%    | Se validan lectura, escritura y emisión en `Stream`.                                        |
+| `ThemeGatewayFirebaseImpl`     | Implementación  | ✅ 100%    | Se verifica delegación correcta a `ServiceFirebaseDatabase` en lectura, escritura y stream. |
+| `ThemeRepositoryImpl`          | Repositorio     | ✅ 100%    | Se prueba delegación correcta de métodos del gateway.                                       |
+| `BlocTheme`                    | BLoC/Controller | ✅ 100%    | Se cubren todos los flujos: carga inicial, cambio de tema, tema aleatorio y escucha remota. |
+| `Gateway`, `Repository` (base) | Abstracta       | ✅ 100%    | Se valida que pueden ser instanciadas con clases fake con constructor `const`.              |
+| `ServiceFirebaseDatabase`      | Abstracta       | ✅ 100%    | Se prueba una implementación fake con constructor `const`.                                  |
 
 ## 📊 Cobertura técnica por tipos
 
